@@ -4,11 +4,12 @@ import Name from "./Name";
 import Reset from "./Reset";
 import Provider from "./Provider";
 import { useFetchTodos } from "./useFetchTodos";
-import { useQueryClient } from "@tanstack/react-query";
+import { useIsFetching, useQueryClient } from "@tanstack/react-query";
 
 export default function User() {
   const { data, remove, isLoading, refetch, isFetching, isInitialLoading } = useFetchTodos();
   const client = useQueryClient();
+  const isFetchingCustom = useIsFetching({ queryKey: ["todos"] })
   useEffect(() => {
     return () => {
       remove();
@@ -40,6 +41,9 @@ export default function User() {
         >
           Reset Cache
         </button>
+        <h3>isFetchingCustom:</h3>
+        {isFetchingCustom}
+        <br />
         {isLoading ? <p>isLoading...</p> : null}
         {isInitialLoading ? <p>isInitialLoading...</p> : null}
         {isFetching ? <p>Refetching...</p> : null}
